@@ -9,7 +9,7 @@
 
 **A stunning, feature-rich portfolio showcasing skills, projects, and achievements**
 
-[Live Demo](https://ct.ofzen.in/) • [Report Bug](https://github.com/ramalokeshreddyp/portfolio/issues) • [Request Feature](https://github.com/ramalokeshreddyp/portfolio/issues)
+[Live Demo](https://prlr-profile.vercel.app/) • [Report Bug](https://github.com/ramalokeshreddyp/portfolio/issues) • [Request Feature](https://github.com/ramalokeshreddyp/portfolio/issues)
 
 </div>
 
