@@ -1,62 +1,6 @@
 import { useEffect } from "react";
 
 /**
- * Keyboard Navigation Hook
- * Provides keyboard shortcuts for better accessibility
- */
-export const useKeyboardNavigation = () => {
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      // Skip if user is typing in an input field
-      if (
-        e.target instanceof HTMLInputElement ||
-        e.target instanceof HTMLTextAreaElement
-      ) {
-        return;
-      }
-
-      // Keyboard shortcuts
-      switch (e.key.toLowerCase()) {
-        case 'h':
-          // Navigate to Hero/Home
-          document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
-          break;
-        case 's':
-          // Navigate to Skills
-          if (!e.ctrlKey && !e.metaKey) {
-            document.getElementById('skills')?.scrollIntoView({ behavior: 'smooth' });
-          }
-          break;
-        case 'p':
-          // Navigate to Projects
-          if (!e.ctrlKey && !e.metaKey) {
-            document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-          }
-          break;
-        case 'c':
-          // Navigate to Contact
-          if (!e.ctrlKey && !e.metaKey) {
-            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-          }
-          break;
-        case 'escape':
-          // Scroll to top
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          break;
-        default:
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyPress);
-    };
-  }, []);
-};
-
-/**
  * Focus Trap Hook
  * Traps focus within a modal or dialog for accessibility
  */

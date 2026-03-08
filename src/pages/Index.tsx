@@ -10,23 +10,17 @@ import Contact from "@/components/portfolio/Contact";
 import Footer from "@/components/portfolio/Footer";
 import ScrollProgress from "@/components/portfolio/ScrollProgress";
 import BackToTop from "@/components/portfolio/BackToTop";
-import KeyboardShortcuts from "@/components/portfolio/KeyboardShortcuts";
 import Chatbot from "@/components/portfolio/Chatbot";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { useKeyboardNavigation } from "@/hooks/use-accessibility";
 
 const Index = () => {
-  // Enable keyboard navigation
-  useKeyboardNavigation();
-
   return (
     <ThemeProvider defaultTheme="dark">
       <div className="relative">
           <ThemeToggle />
         <ScrollProgress />
         <BackToTop />
-        <KeyboardShortcuts />
         <Chatbot />
         <Hero />
         <Terminal />
