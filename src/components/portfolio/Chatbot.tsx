@@ -21,7 +21,7 @@ const Chatbot = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hi! 👋 I'm Lokesh's AI assistant. Ask me anything about his skills, projects, or experience!",
+      content: "Hi! I'm Lokesh's AI assistant. Ask me about his portfolio: skills, projects, achievements, internships, certifications, or contact details.",
       timestamp: new Date(),
     },
   ]);
@@ -261,7 +261,7 @@ const Chatbot = () => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    placeholder="Ask me anything..."
+                    placeholder="Ask about Lokesh's portfolio..."
                     className="flex-1 bg-background border-primary/30 focus:border-primary font-mono text-sm"
                     disabled={isTyping}
                   />

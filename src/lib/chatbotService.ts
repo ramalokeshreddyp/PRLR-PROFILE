@@ -21,6 +21,19 @@ class PortfolioChatbot {
   private knowledgeBase = portfolioKnowledgeBase;
   private conversationHistory: Message[] = [];
   private skillLookup = this.buildSkillLookup();
+  private portfolioContextTerms = [
+    'lokesh',
+    'rama',
+    'portfolio',
+    'project',
+    'skills',
+    'internship',
+    'resume',
+    'leetcode',
+    'contact',
+    'certification',
+    'github',
+  ];
 
   /**
    * Process user question and generate intelligent response
@@ -52,9 +65,17 @@ class PortfolioChatbot {
    * Generate intelligent response based on question analysis
    */
   private generateResponse(question: string): ChatResponse {
+    if (this.isOutOfScope(question)) {
+      return {
+        answer:
+          "I can only provide information from Lokesh's portfolio data. Ask me about his skills, projects, achievements, internships, certifications, resume, or contact details.",
+        confidence: 1.0,
+      };
+    }
+
     // Skill-specific checks (e.g., "is C++ a skill?", "do you know React?")
     const skillMatch = this.findSkillMatch(question);
-    if (skillMatch) {
+    if (skillMatch && this.isSkillIntentQuestion(question, skillMatch.skill)) {
       const relatedProjects = this.findRelatedProjects(skillMatch.skill);
       const projectLine = relatedProjects.length
         ? `\n\n**Related projects:**\n${relatedProjects.map(p => `• ${p.name}`).join('\n')}`
@@ -75,7 +96,7 @@ class PortfolioChatbot {
     }
 
     // Personal info
-    if (this.matchesPattern(question, ['who are you', 'who is', 'tell me about', 'introduce'])) {
+    if (this.matchesPattern(question, ['who are you', 'introduce yourself']) || this.isPersonalProfileQuestion(question)) {
       return {
         answer: `I'm ${this.knowledgeBase.personal.name}, also known as ${this.knowledgeBase.personal.shortName}. I'm a ${this.knowledgeBase.personal.title}. ${this.knowledgeBase.personal.about}`,
         confidence: 1.0,
@@ -110,11 +131,11 @@ class PortfolioChatbot {
     }
 
     // Projects
-    if (this.matchesPattern(question, ['projects', 'what have you built', 'portfolio', 'work', 'code to win', 'fatepick', 'ledger'])) {
-      if (question.includes('code to win')) {
-        const project = this.knowledgeBase.projects[0];
+    if (this.matchesPattern(question, ['projects', 'what have you built', 'portfolio', 'work']) || this.findProjectByQuestion(question)) {
+      const specificProject = this.findProjectByQuestion(question);
+      if (specificProject) {
         return {
-          answer: `**${project.name}** is my flagship project! 🚀\n\n${project.description}\n\n**Tech Stack**: ${project.technologies.join(', ')}\n\n**Key Features**:\n${project.features.map(f => `• ${f}`).join('\n')}\n\nCheck it out: ${project.live}`,
+          answer: `**${specificProject.name}**\n\n${specificProject.description}\n\n**Tech Stack**: ${specificProject.technologies.join(', ')}\n\n**Key Features**:\n${specificProject.features.map(f => `• ${f}`).join('\n')}${specificProject.live ? `\n\nLive: ${specificProject.live}` : ''}${specificProject.github ? `\nGitHub: ${specificProject.github}` : ''}`,
           confidence: 1.0,
           sources: ['Projects Section'],
         };
@@ -132,9 +153,20 @@ class PortfolioChatbot {
 
     // Achievements
     if (this.matchesPattern(question, ['achievements', 'leetcode', 'rating', 'competitive programming', 'cp', 'contest'])) {
-      const leetcode = this.knowledgeBase.achievements.leetcode;
+      const entries = Object.values(this.knowledgeBase.achievements);
+      const lines = entries.map((achievement) => {
+        const extras = [
+          achievement.badge,
+          'rank' in achievement ? achievement.rank : undefined,
+          'problemsSolved' in achievement ? achievement.problemsSolved : undefined,
+          'stars' in achievement ? achievement.stars : undefined,
+        ]
+          .filter(Boolean)
+          .join(' | ');
+        return `**${achievement.platform}**: ${achievement.rating}${extras ? ` (${extras})` : ''}`;
+      });
       return {
-        answer: `I'm actively competitive programming! 🏆\n\n**LeetCode**: ${leetcode.rating} (${leetcode.badge}) - ${leetcode.rank}\n**CodeStudio**: 1886 (Specialist)\n**GeeksforGeeks**: 1685 (3★) - 500+ problems\n**CodeChef**: 1617 (3★)\n**HackerRank**: 5★ in Problem Solving\n\nI love solving algorithmic challenges and have strong DSA fundamentals!`,
+        answer: `Here are Lokesh's competitive programming achievements:\n\n${lines.join('\n')}`,
         confidence: 1.0,
         sources: ['Achievements Section'],
       };
@@ -146,7 +178,7 @@ class PortfolioChatbot {
         .map(i => `• **${i.role}** at ${i.company} (${i.duration})`)
         .join('\n');
       return {
-        answer: `I have hands-on experience through multiple internships:\n\n${internships}\n\nI've worked with MERN stack, data analytics, and gained leadership experience as Class Representative!`,
+        answer: `Lokesh's experience includes:\n\n${internships}`,
         confidence: 1.0,
         sources: ['Internships Section'],
       };
@@ -157,7 +189,7 @@ class PortfolioChatbot {
       const certs = this.knowledgeBase.certifications.slice(0, 5);
       const certList = certs.map(c => `• ${c.title} - ${c.issuer}`).join('\n');
       return {
-        answer: `I'm committed to continuous learning! Here are some of my certifications:\n\n${certList}\n\n...and ${this.knowledgeBase.certifications.length - 5} more! I stay updated with latest technologies in AI, ML, and software development.`,
+        answer: `Here are some of Lokesh's certifications:\n\n${certList}\n\n...and ${this.knowledgeBase.certifications.length - 5} more in the portfolio.`,
         confidence: 1.0,
         sources: ['Certifications Section'],
       };
@@ -199,9 +231,51 @@ class PortfolioChatbot {
 
     // Default response with suggestions
     return {
-      answer: `I'm not sure about that specific question, but I can tell you about:\n\n• Skills and technologies\n• Projects and work\n• Competitive programming achievements\n• Internships and experience\n• Certifications\n• How to contact Lokesh\n\nWhat would you like to know?`,
+      answer: `I don't have verified information for that in Lokesh's portfolio data. I can accurately help with:\n\n• Skills and technologies\n• Projects and work\n• Competitive programming achievements\n• Internships and experience\n• Certifications\n• Contact details and resume`,
       confidence: 0.5,
     };
+  }
+
+  private isOutOfScope(question: string): boolean {
+    const hasPortfolioContext = this.portfolioContextTerms.some((term) => question.includes(term));
+    const hasKnownSkill = Boolean(this.findSkillMatch(question));
+    const hasKnownProject = Boolean(this.findProjectByQuestion(question));
+    const asksAboutExternal = this.matchesPattern(question, [
+      'weather',
+      'news',
+      'stock',
+      'bitcoin',
+      'movie',
+      'song',
+      'sports',
+      'politics',
+      'cricket',
+      'ipl',
+      'who is elon',
+      'who is trump',
+      'who is modi',
+    ]);
+
+    return asksAboutExternal && !hasPortfolioContext && !hasKnownSkill && !hasKnownProject;
+  }
+
+  private isPersonalProfileQuestion(question: string): boolean {
+    if (!this.matchesPattern(question, ['who is', 'tell me about', 'introduce'])) return false;
+    return (
+      question.includes('lokesh') ||
+      question.includes('rama') ||
+      question.includes('you') ||
+      question.includes('yourself')
+    );
+  }
+
+  private findProjectByQuestion(question: string) {
+    const normalized = this.normalizeSkill(question);
+    return this.knowledgeBase.projects.find((project) => {
+      const projectName = this.normalizeSkill(project.name);
+      const type = this.normalizeSkill(project.type);
+      return normalized.includes(projectName) || normalized.includes(type);
+    });
   }
 
   /**
@@ -257,7 +331,7 @@ class PortfolioChatbot {
 
     // Fallback: direct substring match for multi-word skills
     for (const [skillKey, category] of Object.entries(this.skillLookup)) {
-      if (normalized.includes(skillKey)) {
+      if (this.containsSkillKey(normalized, skillKey)) {
         const skill = this.recoverSkillName(skillKey) ?? skillKey.toUpperCase();
         return { skill, category };
       }
@@ -275,6 +349,45 @@ class PortfolioChatbot {
 
   private normalizeSkill(skill: string): string {
     return skill.toLowerCase().replace(/\s+/g, ' ').trim();
+  }
+
+  private escapeRegExp(value: string): string {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  private containsSkillKey(text: string, skillKey: string): boolean {
+    const escapedKey = this.escapeRegExp(this.normalizeSkill(skillKey));
+    const pattern = new RegExp(`(^|[^a-z0-9+.#])${escapedKey}([^a-z0-9+.#]|$)`, 'i');
+    return pattern.test(this.normalizeSkill(text));
+  }
+
+  private isSkillIntentQuestion(question: string, matchedSkill: string): boolean {
+    if (
+      this.matchesPattern(question, [
+        'skill',
+        'skills',
+        'technology',
+        'technologies',
+        'tech stack',
+        'programming language',
+        'do you know',
+        'do you use',
+        'familiar with',
+        'experience with',
+        'good at',
+      ])
+    ) {
+      return true;
+    }
+
+    const tokens = this.extractTokens(question);
+    const normalizedSkill = this.normalizeSkill(matchedSkill);
+    if (tokens.length <= 3) {
+      return tokens.some((token) => this.normalizeSkill(token) === normalizedSkill) ||
+        this.containsSkillKey(question, normalizedSkill);
+    }
+
+    return false;
   }
 
   private recoverSkillName(skillKey: string): string | null {
@@ -303,7 +416,10 @@ class PortfolioChatbot {
   private findRelatedProjects(skill: string): Array<{ name: string }> {
     const normalizedSkill = this.normalizeSkill(skill);
     return this.knowledgeBase.projects.filter((project) => {
-      return project.technologies.some((tech) => this.normalizeSkill(tech).includes(normalizedSkill));
+      return project.technologies.some((tech) => {
+        const normalizedTech = this.normalizeSkill(tech);
+        return normalizedTech === normalizedSkill || this.containsSkillKey(normalizedTech, normalizedSkill);
+      });
     }).map((project) => ({ name: project.name }));
   }
 
