@@ -77,11 +77,6 @@ const Chatbot = () => {
     }
   };
 
-  // Handle suggested question
-  const handleSuggestion = (question: string) => {
-    setInputValue(question);
-  };
-
   // Handle key press
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -89,8 +84,6 @@ const Chatbot = () => {
       handleSend();
     }
   };
-
-  const suggestedQuestions = chatbot.getSuggestedQuestions();
 
   return (
     <>
@@ -230,25 +223,6 @@ const Chatbot = () => {
                       </div>
                     </div>
                   </motion.div>
-                )}
-
-                {/* Suggested Questions (show when no messages) */}
-                {messages.length === 1 && (
-                  <div className="space-y-2">
-                    <p className="text-xs text-muted-foreground font-mono">Try asking:</p>
-                    {suggestedQuestions.slice(0, 4).map((question, i) => (
-                      <motion.button
-                        key={i}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 * i }}
-                        onClick={() => handleSuggestion(question)}
-                        className="w-full text-left px-3 py-2 text-xs bg-primary/10 hover:bg-primary/20 border border-primary/20 rounded-lg transition-colors"
-                      >
-                        {question}
-                      </motion.button>
-                    ))}
-                  </div>
                 )}
 
                 <div ref={messagesEndRef} />
