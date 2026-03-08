@@ -12,13 +12,11 @@ import ScrollProgress from "@/components/portfolio/ScrollProgress";
 import BackToTop from "@/components/portfolio/BackToTop";
 import Chatbot from "@/components/portfolio/Chatbot";
 import { ThemeProvider } from "@/providers/ThemeProvider";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Index = () => {
   return (
     <ThemeProvider defaultTheme="dark">
       <div className="relative">
-          <ThemeToggle />
         <ScrollProgress />
         <BackToTop />
         <Chatbot />

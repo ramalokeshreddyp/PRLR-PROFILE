@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Download, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ThemeToggle } from "@/components/ThemeToggle";
 
 const ResumePage = () => {
   const navigate = useNavigate();
@@ -16,9 +15,6 @@ const ResumePage = () => {
         <div className="absolute top-20 left-10 w-72 sm:w-96 h-72 sm:h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
         <div className="absolute bottom-20 right-10 w-72 sm:w-96 h-72 sm:h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000" />
       </div>
-
-      {/* Theme toggle */}
-      <ThemeToggle />
 
       {/* Header */}
       <motion.header
