@@ -9,7 +9,7 @@
 
 Professional dark-mode portfolio platform with animated sections, project showcase, achievement highlights, and a portfolio-grounded chatbot assistant.
 
-[Live Demo](https://ct.ofzen.in/) • [Architecture](./architecture.md) • [Project Documentation](./projectdocumentation.md)
+[Live Demo]([https://ct.ofzen.in/](https://prlr-profile.vercel.app/)) • [Architecture](./architecture.md) • [Project Documentation](./projectdocumentation.md)
 
 </div>
 
