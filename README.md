@@ -1,262 +1,182 @@
-# 🚀 Rama Lokesh Reddy - Portfolio
+# PRLR Portfolio
 
 <div align="center">
 
-![Portfolio Banner](https://img.shields.io/badge/Portfolio-Live-00E5FF?style=for-the-badge&logo=vercel)
 ![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178C6?style=for-the-badge&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4.17-38B2AC?style=for-the-badge&logo=tailwind-css)
+![Vite](https://img.shields.io/badge/Vite-7.3.1-646CFF?style=for-the-badge&logo=vite)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4.17-38B2AC?style=for-the-badge&logo=tailwindcss)
 
-**A stunning, feature-rich portfolio showcasing skills, projects, and achievements**
+Professional dark-mode portfolio platform with animated sections, project showcase, achievement highlights, and a portfolio-grounded chatbot assistant.
 
-[Live Demo](https://prlr-profile.vercel.app/) • [Report Bug](https://github.com/ramalokeshreddyp/portfolio/issues) • [Request Feature](https://github.com/ramalokeshreddyp/portfolio/issues)
+[Live Demo](https://ct.ofzen.in/) • [Architecture](./architecture.md) • [Project Documentation](./projectdocumentation.md)
 
 </div>
 
----
+## Project Overview
+This project is a modern, production-ready personal portfolio for **Rama Lokesh Reddy Penumallu**. It presents technical profile data through a polished UI and a structured content system.
 
-## ✨ Features
+Core goals:
+- Present projects, internships, achievements, certifications, and contact details in one place.
+- Deliver a fast and responsive user experience across devices.
+- Use a chatbot that answers only from verified portfolio data.
+- Maintain a clean, scalable frontend architecture for easy updates.
 
-### 🎨 **Design & User Experience**
-- ✅ **Cyberpunk/Tech Aesthetic** - Stunning neon colors with glass-morphism effects
-- ✅ **Fully Responsive** - Perfect on mobile, tablet, and desktop
-- ✅ **Dark Theme Optimized** - Easy on the eyes with beautiful gradients
-- ✅ **Smooth Animations** - Powered by Framer Motion
-- ✅ **Terminal-Style Components** - Unique code editor aesthetic
+## Tech Stack
+| Layer | Technology | Why It Is Used |
+|---|---|---|
+| UI Framework | React 18 | Component-driven architecture and fast UI rendering |
+| Language | TypeScript | Safer refactoring and stronger maintainability |
+| Build Tool | Vite | Fast dev server and optimized production bundle |
+| Styling | Tailwind CSS | Rapid, consistent utility-based design system |
+| Animations | Framer Motion | Smooth interactive transitions and reveal effects |
+| Routing | React Router | SPA routing for `/` and `/resume` flows |
+| Data Utilities | TanStack Query | Structured async state patterns where needed |
+| Forms | React Hook Form | Lightweight and scalable form handling |
+| UI Primitives | Radix + shadcn/ui | Accessible, reusable base components |
 
-### 🤖 **AI-Powered Chatbot** (NEW!)
-- ✅ **Intelligent Assistant** - Trained on complete portfolio data
-- ✅ **Natural Conversations** - Ask about skills, projects, achievements
-- ✅ **Instant Responses** - No external API needed
-- ✅ **Suggested Questions** - Guided user experience
-- ✅ **Beautiful UI** - Seamlessly integrated with portfolio design
+## Code Structure
+```text
+.
+|-- public/
+|   |-- profile-photo.jpg
+|   `-- robots.txt
+|-- src/
+|   |-- assets/
+|   |-- components/
+|   |   |-- portfolio/      # Page sections + chatbot + UX components
+|   |   `-- ui/             # Reusable UI primitives
+|   |-- hooks/              # Accessibility and toast hooks
+|   |-- lib/                # Constants, helpers, performance, chatbot logic
+|   |-- pages/              # Route-level screens (Index, ResumePage, NotFound)
+|   |-- providers/          # Theme provider and context (dark-only)
+|   |-- App.tsx
+|   |-- index.css
+|   `-- main.tsx
+|-- index.html
+|-- vite.config.ts
+|-- tailwind.config.ts
+|-- architecture.md
+|-- projectdocumentation.md
+`-- README.md
+```
 
-### ⚡ **Performance & Accessibility**
-- ✅ **Lightning Fast** - Optimized loading and performance
-- ✅ **SEO Optimized** - Complete meta tags, Open Graph, Twitter Cards
-- ✅ **Web Vitals Tracking** - Monitor FCP, LCP, FID, CLS, TTFB
-- ✅ **Keyboard Navigation** - Full keyboard shortcuts support
-- ✅ **Screen Reader Friendly** - WCAG compliant
-- ✅ **Reduced Motion Support** - Accessible to all users
+## System Workflow
+```mermaid
+flowchart LR
+  A[User Opens Site] --> B[Vite React App Bootstraps]
+  B --> C[Router Resolves Route]
+  C --> D[Index or Resume Page]
+  D --> E[Portfolio Components Render]
+  E --> F[User Interacts: Scroll, Navigate, Chatbot]
+  F --> G[State Updates + Animated UI Response]
+  G --> H[Content/Feedback Displayed]
+```
 
-### 🎯 **Interactive Features**
-- ✅ **Scroll Progress Indicator** - Visual progress bar + circular indicator
-- ✅ **Back to Top Button** - Smooth scroll navigation
-- ✅ **Keyboard Shortcuts** - Quick navigation (H/S/P/C/Esc/?)
-- ✅ **Page Loader** - Professional loading screen
-- ✅ **Toast Notifications** - User feedback system
-- ✅ **Mobile Menu** - Responsive navigation
+## Execution Flow Diagram
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant B as Browser
+  participant V as Vite Bundle
+  participant R as React Runtime
+  participant C as Chatbot Service
 
-### 📊 **Portfolio Sections**
-- 👨‍💻 **Hero** - Introduction with profile and social links
-- 🖥️ **About** - Terminal-style biography
-- 💻 **Skills** - Interactive code editor display
-- 🚀 **Projects** - 4 major projects with live demos
-- 💼 **Internships** - Git-style timeline
-- 🏆 **Achievements** - Competitive programming ratings
-- 📜 **Certifications** - 11+ professional certifications
-- 📄 **Resume** - View and download
-- 📧 **Contact** - Direct communication form
+  U->>B: Open URL
+  B->>V: Load JS/CSS assets
+  V->>R: Mount App
+  R->>R: Resolve route and render sections
+  U->>R: Ask chatbot question
+  R->>C: askQuestion(question)
+  C->>C: Intent + knowledge-base matching
+  C-->>R: Structured answer
+  R-->>U: Render response in chatbot UI
+```
 
----
+## Chatbot Processing Flow
+```mermaid
+flowchart TD
+  A[Question Received] --> B[Normalize Text]
+  B --> C{Out of Scope?}
+  C -- Yes --> D[Return Portfolio-only guidance]
+  C -- No --> E{Intent Match}
+  E -->|Skills| F[Skill Detection + Related Projects]
+  E -->|Projects| G[Project Summary]
+  E -->|Achievements| H[Ratings/Badges Summary]
+  E -->|Certifications| I[Certification Summary]
+  E -->|Contact/Resume| J[Contact/Resume Links]
+  E -->|Unknown| K[Safe Fallback]
+  F --> L[Response]
+  G --> L
+  H --> L
+  I --> L
+  J --> L
+  K --> L
+```
 
-## 🛠️ Tech Stack
-
-### **Frontend**
-- **React 18.3.1** - Modern UI library
-- **TypeScript 5.8.3** - Type-safe development
-- **Vite** - Lightning-fast build tool
-- **Tailwind CSS 3.4.17** - Utility-first styling
-- **Framer Motion 12.23.24** - Smooth animations
-
-### **UI Components**
-- **Shadcn/ui** - High-quality component library
-- **Radix UI** - Accessible primitives
-- **Lucide Icons** - Beautiful icon set
-
-### **State & Data**
-- **React Query** - Server state management
-- **React Hook Form** - Form handling
-- **React Router** - Client-side routing
-
-### **Utilities**
-- **clsx** - Conditional class names
-- **tailwind-merge** - Merge Tailwind classes
-- **Sonner** - Toast notifications
-
----
-
-## 🚀 Quick Start
-
+## Setup And Installation
 ### Prerequisites
+- Node.js 18+
+- npm 9+
 
-Ensure you have the following installed:
-- **Node.js** (v18 or higher)
-- **npm** or **yarn** or **pnpm**
-
-### Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/ramalokeshreddyp/portfolio.git
-   cd portfolio
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   # or
-   pnpm install
-   ```
-
-3. **Start development server**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   # or
-   pnpm dev
-   ```
-
-4. **Open in browser**
-   ```
-   http://localhost:5173
-   ```
-
----
-
-## 📜 Available Scripts
-
+### Local Setup
+1. Clone repository.
 ```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
-npm run lint         # Run ESLint
-
-# Build variants
-npm run build:dev    # Build in development mode
+git clone https://github.com/ramalokeshreddyp/PRLR-PROFILE.git
+cd PRLR-PROFILE
 ```
 
----
-
-## ⌨️ Keyboard Shortcuts
-
-| Shortcut | Action |
-|----------|--------|
-| `H` | Navigate to Home |
-| `S` | Navigate to Skills |
-| `P` | Navigate to Projects |
-| `C` | Navigate to Contact |
-| `Esc` | Scroll to Top |
-| `?` | Toggle Shortcuts Help |
-
----
-
-## 🤖 AI Chatbot
-
-The portfolio features an intelligent AI chatbot trained on complete portfolio data.
-
-### What it can do:
-- Answer questions about skills and technologies
-- Provide details about projects
-- Share competitive programming achievements
-- Explain internship experiences
-- List certifications
-- Provide contact information
-- Suggest resume download
-
-### How to use:
-1. Click the chatbot button (bottom right)
-2. Ask any question about the portfolio
-3. Try suggested questions for guided experience
-
----
-
-## 📁 Project Structure
-
-```
-portfolio/
-├── public/
-│   ├── robots.txt
-│   └── favicon.ico
-├── src/
-│   ├── assets/              # Images and static files
-│   ├── components/
-│   │   ├── portfolio/       # Portfolio components
-│   │   │   ├── Chatbot.tsx         # AI Chatbot
-│   │   │   ├── ScrollProgress.tsx
-│   │   │   └── ...
-│   │   └── ui/              # Shadcn UI components
-│   ├── hooks/               # Custom React hooks
-│   ├── lib/                 # Utilities and services
-│   │   ├── chatbotKnowledge.ts    # Portfolio data
-│   │   └── chatbotService.ts      # AI logic
-│   ├── pages/               # Route pages
-│   ├── App.tsx
-│   └── main.tsx
-├── package.json
-├── README.md
-├── tailwind.config.ts
-└── vite.config.ts
-```
-
----
-
-## 🎨 Customization
-
-### Update Personal Information
-Edit `src/lib/constants.ts` and `src/lib/chatbotKnowledge.ts`
-
-### Update Colors
-Edit `src/index.css` CSS variables
-
-### Update SEO
-Edit `index.html` meta tags
-
----
-
-## 🌐 Deployment
-
-### Vercel (Recommended)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
-
-### Build Manually
+2. Install dependencies.
 ```bash
-npm run build
-# Upload 'dist' folder to hosting
+npm install
 ```
 
----
+3. Start development server.
+```bash
+npm run dev
+```
 
-## 📊 Performance
+4. Open local app.
+```text
+http://localhost:8080/
+```
 
-- **Lighthouse Score**: 95+ (Performance)
-- **First Contentful Paint**: < 1.5s
-- **Largest Contentful Paint**: < 2.5s
-- **Cumulative Layout Shift**: < 0.1
+## How To Run Locally
+```bash
+npm run dev      # Start dev server
+npm run build    # Production build
+npm run preview  # Preview built app
+npm run lint     # Lint checks
+```
 
----
+## Usage Instructions
+1. Open the home page and navigate section-by-section.
+2. Use `Back to Top`, scroll progress, and section visuals for navigation.
+3. Open chatbot from the floating button.
+4. Ask portfolio-grounded questions like:
+   - `What are your skills?`
+   - `Tell me about your projects`
+   - `What certifications do you have?`
+   - `How can I contact you?`
+5. Open `/resume` route for embedded resume preview and Drive actions.
 
-## 👨‍💻 About Me
+## Design Principles
+- Dark-mode-only visual language for consistency.
+- Motion with purpose: transitions support readability and interaction feedback.
+- Information hierarchy first: sections are organized to support recruiter scanning.
+- Maintainability: business data and UI behavior are separated (`lib/` vs `components/`).
 
+## Documentation Map
+- `README.md`: quick onboarding + execution and usage view.
+- `architecture.md`: deep architecture and design decisions.
+- `projectdocumentation.md`: full technical and operational documentation.
+
+## Maintainer
 **Rama Lokesh Reddy Penumallu**
-- 🎓 3rd Year CSE Student at Aditya University
-- 💻 Core Developer & Competitive Programmer
-- 🏆 LeetCode Rating: 1912 (Knight, Top 4.68%)
-- 🌟 5★ HackerRank Problem Solver
-- 📧 Email: rlpreddy565@gmail.com
 
-### Connect with me:
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rama-lokesh-reddy/)
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ramalokeshreddyp)
-[![LeetCode](https://img.shields.io/badge/LeetCode-FFA116?style=for-the-badge&logo=leetcode&logoColor=black)](https://leetcode.com/u/rlpreddy565/)
-
----
-
-## 🙏 Acknowledgments
+- GitHub: https://github.com/ramalokeshreddyp
+- LinkedIn: https://www.linkedin.com/in/rama-lokesh-reddy/
+- Email: rlpreddy565@gmail.com
 
 - [Shadcn/ui](https://ui.shadcn.com/) - Component library
 - [Tailwind CSS](https://tailwindcss.com/) - Styling framework
