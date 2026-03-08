@@ -27,7 +27,7 @@ export const SOCIAL_LINKS = {
 export const PROJECT_LINKS = {
   codeToWin: {
     github: "https://github.com/ramalokeshreddyp/code_to_win",
-    live: "https://ct.ofzen.in/",
+    live: "http://codetracker.adityauniversity.in:3000/",
   },
   equilibriumLedger: {
     github: "https://github.com/ramalokeshreddyp/Financial-Ledger-API-with-Double-Entry-Bookkeeping",

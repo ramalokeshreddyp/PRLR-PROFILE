@@ -19,7 +19,7 @@ const projects = [
     ],
     gradient: "from-secondary to-cyber-purple",
     githubUrl: "https://github.com/ramalokeshreddyp/code_to_win",
-    liveUrl: "https://ct.ofzen.in/",
+    liveUrl: "http://codetracker.adityauniversity.in:3000/",
     commits: 124,
     branch: "main",
   },

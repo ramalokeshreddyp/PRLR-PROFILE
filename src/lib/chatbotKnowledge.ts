@@ -83,7 +83,7 @@ export const portfolioKnowledgeBase = {
         "Department-wise performance tracking",
       ],
       github: "https://github.com/ramalokeshreddyp/code_to_win",
-      live: "https://ct.ofzen.in/",
+      live: "http://codetracker.adityauniversity.in:3000/",
       commits: 124,
     },
     {
